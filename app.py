@@ -6,10 +6,10 @@ app = Flask(__name__, static_folder='static', template_folder='templates')
 CORS(app)
 
 # إعداد الاتصال بقاعدة البيانات
-app.config['MYSQL_HOST'] = 'db4free.net'
-app.config['MYSQL_USER'] = 'asdasd7717'
+app.config['MYSQL_HOST'] = 'sql7.freesqldatabase.com'
+app.config['MYSQL_USER'] = 'sql7789263'
 app.config['MYSQL_PASSWORD'] = 'ingy01208320446'
-app.config['MYSQL_DB'] = 'students7717'
+app.config['MYSQL_DB'] = 'sql7789263'
 
 mysql = MySQL(app)
 
