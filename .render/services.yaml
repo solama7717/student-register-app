@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: basata-app
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn app:app
+    envVars:
+      - key: MYSQL_HOST
+        value: sql7.freesqldatabase.com
+      - key: MYSQL_USER
+        value: sql7789263
+      - key: MYSQL_PASSWORD
+        value: ingy01208320446
+      - key: MYSQL_DB
+        value: sql7789263
