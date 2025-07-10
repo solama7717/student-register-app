@@ -188,7 +188,7 @@ function handleFormSubmit(e) {
   }
 
   const savedRecords = JSON.parse(localStorage.getItem("students") || "[]");
-  fetch("http://localhost:5000/check_name", {
+  fetch("https://student-register-app-2d09.onrender.com//check_name", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ name, guardianPhone })
@@ -232,7 +232,7 @@ function handleFormSubmit(e) {
     const selectedDay = document.getElementById("days").value;
     const isExempted = (grade === "2ثانوي") || (grade === "1ثانوي" && gender === "ولد");
 
-    fetch("http://localhost:5000/count_students", {
+    fetch("https://student-register-app-2d09.onrender.com//count_students", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ grade, gender, days: selectedDay, time: selectedTime })
