@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تسجيل الطلاب</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="form-container">
+    <h2>نموذج تسجيل الطالب</h2>
+    <form id="registrationForm">
+
+      <!-- اسم الطالب -->
+      <label>اسم الطالب الرباعى <span class="required">*</span></label>
+      <input type="text" id="studentName" required>
+
+      <!-- رقم الطالب (اختياري) -->
+      <label>رقم هاتف الطالب (اختياري)</label>
+      <input type="tel" id="studentPhone" pattern="^01[0-2,5]{1}[0-9]{8}$" placeholder="01xxxxxxxxx">
+
+      <!-- رقم ولي الأمر (إجباري) -->
+      <label>رقم ولي الأمر(إجباري) <span class="required">*</span></label>
+      <input type="tel" id="guardianPhone" required pattern="^01[0-2,5]{1}[0-9]{8}$" placeholder="01xxxxxxxxx">
+
+      <!-- رقم واتساب ولي الأمر (اختياري) -->
+      <label>رقم واتساب ولي الأمر (يفضل)</label>
+      <input type="tel" id="whatsappPhone" pattern="^01[0-2,5]{1}[0-9]{8}$" placeholder="يمكن أن يكون نفس رقم ولي الأمر">
+
+      <!-- نوع الاشتراك -->
+      <label>نوع الاشتراك <span class="required">*</span></label>
+      <select id="subscriptionType" required>
+        <option value="">اختر نوع الاشتراك</option>
+        <option value="center">الحضور في السنتر والانضمام للتليجرام</option>
+        <option value="telegram">الاشتراك في جروب التليجرام فقط</option>
+      </select>
+
+      <!-- باقي الحقول ستظهر فقط عند اختيار الحضور في السنتر -->
+      <div id="conditionalFields" style="display:none;">
+
+        <!-- الجنس -->
+        <label>النوع <span class="required">*</span></label>
+        <select id="gender" required>
+          <option value="">اختر النوع</option>
+          <option value="ولد">ولد</option>
+          <option value="بنت">بنت</option>
+        </select>
+
+        <!-- الصف -->
+        <label>الصف الدراسي <span class="required">*</span></label>
+        <select id="grade" required>
+          <option value="">اختر الصف</option>
+          <option value="1اعدادي">الصف الأول الإعدادي</option>
+          <option value="2اعدادي">الصف الثاني الإعدادي</option>
+          <option value="3اعدادي">الصف الثالث الإعدادي</option>
+          <option value="1ثانوي">الصف الأول الثانوي</option>
+          <option value="2ثانوي">الصف الثاني الثانوي</option>
+        </select>
+
+        <!-- الأيام الثابتة -->
+        <label>أيام الحضور</label>
+        <input type="text" id="days" readonly>
+
+        <!-- اختيار الساعة (قد يكون مخفيًا حسب الصف) -->
+        <label id="timeLabel" style="display:none;">اختيار الساعة</label>
+        <select id="timeOptions" style="display:none;"></select>
+
+        <!-- هل لديه إخوة -->
+        <label>هل لك إخوة في مراحل دراسية أخرى عندنا؟</label>
+        <div class="radio-group">
+          <label><input type="radio" name="siblings" value="ليا إخوات"> ليا إخوات</label>
+          <label><input type="radio" name="siblings" value="مليش إخوات"> مليش إخوات</label>
+        </div>
+
+        <div id="siblingDetails" style="display: none;">
+  <label>اسم الأخ أو الأخت</label>
+  <input type="text" id="siblingName" placeholder="أدخل اسم الأخ أو الأخت">
+
+  <label>الصف الدراسي للأخ أو الأخت</label>
+  <select id="siblingGrade">
+    <option value="">اختر الصف</option>
+    <option value="1اعدادي">الصف الأول الإعدادي</option>
+    <option value="2اعدادي">الصف الثاني الإعدادي</option>
+    <option value="3اعدادي">الصف الثالث الإعدادي</option>
+    <option value="1ثانوي">الصف الأول الثانوي</option>
+    <option value="2ثانوي">الصف الثاني الثانوي</option>
+  </select>
+</div>
+
+
+        <!-- حفظ القرآن -->
+        <div class="checkbox-group">
+          <label><input type="checkbox" id="hafiz"> أحفظ القرآن كاملًا</label>
+          <label><input type="checkbox" id="fatherDeceased"> والدي متوفي</label>
+        </div>
+
+      </div>
+
+      <!-- زر التسجيل -->
+      <button type="submit" id="submitBtn">تسجيل</button>
+      <p id="warning" class="warning" style="display:none;"></p>
+    </form>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

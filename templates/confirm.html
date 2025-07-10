@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>مراجعة البيانات</title>
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), url('bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-image: url("{{ url_for('static', filename='images/caver.jpg') }}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: scroll;
+      direction: rtl;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 20px;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      color: #222;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    table td {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    table td.label {
+      font-weight: bold;
+      color: #444;
+      width: 35%;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+      transition: background 0.3s ease;
+    }
+
+    .btn-edit {
+      background-color: #e74c3c;
+    }
+
+    .btn-edit:hover {
+      background-color: #c0392b;
+    }
+
+    .btn-confirm {
+      background-color: #2ecc71;
+    }
+
+    .btn-confirm:hover {
+      background-color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>مراجعة بيانات التسجيل</h2>
+    <table id="studentData"></table>
+
+    <div class="btn-group">
+      <button class="btn-edit" onclick="goBack()">تعديل البيانات</button>
+      <button class="btn-confirm" onclick="confirmRegistration()">تسجيل البيانات</button>
+    </div>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("currentStudent"));
+
+    if (!data) {
+      document.getElementById("studentData").innerHTML = "<tr><td colspan='2'>لا توجد بيانات لعرضها.</td></tr>";
+    } else {
+      const table = document.getElementById("studentData");
+      const isTelegramOnly = data.subscriptionType === "telegram";
+
+const rows = [
+  ["اسم الطالب", data.name],
+  ["رقم الطالب", data.studentPhone],
+  ["رقم ولي الأمر", data.guardianPhone],
+  ["رقم واتساب", data.whatsappPhone],
+  ["نوع الاشتراك", data.subscriptionType === "center" ? "الحضور في السنتر + التليجرام" : "جروب التليجرام فقط"],
+  ["النوع", data.gender],
+  ["الصف الدراسي", data.grade]
+];
+
+// أضف الحقول المتقدمة فقط لو الطالب اختار الحضور في السنتر
+if (data.subscriptionType === "center") {
+  rows.push(
+    ["أيام الحضور", data.days],
+    ["الموعد المختار", data.time],
+    ["هل له إخوة", data.siblings],
+    ...(data.siblings === "ليا إخوات"
+      ? [
+          ["اسم الأخ / الأخت", data.siblingName || "---"],
+          ["صف الأخ / الأخت", data.siblingGrade || "---"]
+        ]
+      : []),
+    ["هل حافظ قرآن", data.hafiz ? "نعم" : "لا"],
+    ["هل والده متوفي", data.fatherDeceased ? "نعم" : "لا"]
+  );
+}
+
+// عرض الصفوف داخل الجدول
+rows.forEach(([label, value]) => {
+  const row = document.createElement("tr");
+  row.innerHTML = `<td class="label">${label}</td><td>${value}</td>`;
+  table.appendChild(row);
+});
+
+      }
+
+    function goBack() {
+      localStorage.setItem("editMode", "true");
+      window.location.href = "/";
+    }
+
+    function confirmRegistration() {
+  const data = JSON.parse(localStorage.getItem("currentStudent"));
+
+  // إرسال البيانات إلى باك إند Flask
+  fetch("http://localhost:5000/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+  .then(res => res.json())
+  .then(response => {
+    console.log("✅ تم الإرسال:", response);
+    // توجيه المستخدم لصفحة النجاح بعد نجاح الإرسال
+    window.location.href = "success.html";
+
+  })
+  .catch(error => {
+    console.error("❌ فشل في الإرسال:", error);
+    alert("حدث خطأ أثناء إرسال البيانات للسيرفر. حاول مرة أخرى.");
+  });
+}
+  </script>
+</body>
+</html>
