@@ -219,7 +219,20 @@ function handleFormSubmit(e) {
     return;
   }
 
-  const data = { name, studentPhone, guardianPhone, whatsappPhone, subscriptionType, gender, grade, days: "", time: "", siblings: "", hafiz: false, fatherDeceased: false };
+  const data = {
+  name, studentPhone, guardianPhone, whatsappPhone,
+  subscriptionType, gender, grade,
+  days: selectedDay,
+  time: selectedTime,
+  siblings: document.querySelector('input[name="siblings"]:checked')?.value || "غير محدد",
+  hafiz: document.getElementById("hafiz").checked,
+  fatherDeceased: document.getElementById("fatherDeceased").checked,
+};
+if (data.siblings === "ليا إخوات") {
+  data.siblingName = document.getElementById("siblingName").value.trim() || "";
+  data.siblingGrade = document.getElementById("siblingGrade").value || "";
+}
+
 
   if (subscriptionType === "center") {
     const selectedTime = document.getElementById("timeOptions").value;
