@@ -42,7 +42,7 @@ def register_student():
             SELECT COUNT(*) FROM students WHERE name = %s AND guardian_phone = %s
         """, (data['name'], data['guardianPhone']))
         result = cur.fetchone()
-        if result and result[0] > 0:
+        if result and result['count'] > 0:
             cur.close()
             conn.close()
             return jsonify({'error': 'هذا الطالب مسجل بالفعل بهذا الرقم'}), 409
@@ -102,7 +102,7 @@ def count_students():
         cur.close()
         conn.close()
 
-        count = result[0] if result else 0
+        count = result['count'] if result else 0
         return jsonify({"count": count})
     except Exception as e:
         print("❌ Error in /count_students:", e)
@@ -129,7 +129,7 @@ def check_name():
         cur.close()
         conn.close()
 
-        exists = result[0] > 0 if result else False
+        exists = result['count'] > 0 if result else False
         return jsonify({"exists": exists})
     except Exception as e:
         print("❌ Error in /check_name:", e)
