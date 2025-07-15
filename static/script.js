@@ -181,6 +181,13 @@ function handleFormSubmit(e) {
     return;
   }
 
+if (name.split(" ").filter(word => word.trim() !== "").length < 4) {
+  warning.textContent = "يرجى إدخال الاسم رباعي.";
+  warning.style.display = "block";
+  return;
+}
+
+
   if (!grade || !gender) {
     warning.textContent = "يرجى تحديد الصف والنوع.";
     warning.style.display = "block";
@@ -188,7 +195,7 @@ function handleFormSubmit(e) {
   }
 
   const savedRecords = JSON.parse(localStorage.getItem("students") || "[]");
-  fetch("https://student-register-app-2d09.onrender.com//check_name", {
+  fetch("https://student-register-app-2d09.onrender.com/check_name", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ name, guardianPhone })
@@ -245,7 +252,7 @@ if (data.siblings === "ليا إخوات") {
     const selectedDay = document.getElementById("days").value;
     const isExempted = (grade === "2ثانوي") || (grade === "1ثانوي" && gender === "ولد");
 
-    fetch("https://student-register-app-2d09.onrender.com//count_students", {
+    fetch("https://student-register-app-2d09.onrender.com/count_students", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ grade, gender, days: selectedDay, time: selectedTime })
