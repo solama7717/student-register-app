@@ -252,7 +252,7 @@ if (data.siblings === "ليا إخوات") {
     const selectedDay = document.getElementById("days").value;
     const isExempted = (grade === "2ثانوي") || (grade === "1ثانوي" && gender === "ولد");
 
-    fetch("https://student-register-app-2d09.onrender.com/count_students", {
+    fetch("https://localhost:5000/count_students", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ grade, gender, days: selectedDay, time: selectedTime })
