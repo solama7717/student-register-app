@@ -156,7 +156,7 @@ rows.forEach(([label, value]) => {
   const data = JSON.parse(localStorage.getItem("currentStudent"));
 
   // إرسال البيانات إلى باك إند Flask
-  fetch("https://localhost:5000//register", {
+  fetch("https://web-production-86af.up.railway.app//register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
