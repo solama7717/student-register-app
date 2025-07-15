@@ -195,7 +195,7 @@ if (name.split(" ").filter(word => word.trim() !== "").length < 4) {
   }
 
   const savedRecords = JSON.parse(localStorage.getItem("students") || "[]");
-  fetch("https://student-register-app-2d09.onrender.com/check_name", {
+  fetch("https://localhost:5000/check_name", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ name, guardianPhone })
