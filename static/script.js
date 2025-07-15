@@ -195,7 +195,7 @@ if (name.split(" ").filter(word => word.trim() !== "").length < 4) {
   }
 
   const savedRecords = JSON.parse(localStorage.getItem("students") || "[]");
-  fetch("https://localhost:5000/check_name", {
+  fetch("https://web-production-86af.up.railway.app/check_name", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ name, guardianPhone })
@@ -252,7 +252,7 @@ if (data.siblings === "ليا إخوات") {
     const selectedDay = document.getElementById("days").value;
     const isExempted = (grade === "2ثانوي") || (grade === "1ثانوي" && gender === "ولد");
 
-    fetch("https://localhost:5000/count_students", {
+    fetch("https://web-production-86af.up.railway.app/count_students", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ grade, gender, days: selectedDay, time: selectedTime })
